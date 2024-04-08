@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
-    public function create(Request $request)
+    public function index()
     {
-        $card = new Card();
-        $card->number = $request->number;
-        $card->balance = $request->balance;
-        $card->save();
+        if (Auth::user()->tokenCan('view-all-cards')) {
+            dd('view-all-cards');
+            // $cards = Card::all();
+            
+        } else {
+            dd('view-own-cards');
+            // $cards = Auth::user()->cards;
+        }
 
-        return response()->json($card);
+        return response()->json(['cards' => 'cards']);
     }
 }
