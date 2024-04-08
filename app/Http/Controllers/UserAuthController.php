@@ -50,17 +50,6 @@ class UserAuthController extends Controller
         return Auth::user();
     }
 
-    public function me()
-    {
-        if (! auth()->user()) {
-            abort(401, 'Unauthenticated');
-        }
-
-        return response()->json([
-            'data' => auth()->user(),
-        ]);
-    }
-
     public function logout()
     {
         if (! auth()->user()) {

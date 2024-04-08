@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +25,7 @@ Route::post('register', [UserAuthController::class, 'register']);
 Route::post('login', [UserAuthController::class, 'login']);
 Route::get('me', [UserAuthController::class, 'me'])->middleware('auth:sanctum');
 Route::post('logout', [UserAuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::apiResource('users', UserController::class)->only(['index', 'update', 'show', 'destroy'])->middleware('auth:sanctum');
 
 Route::apiResource('cards', CardController::class)->middleware('auth:sanctum');
