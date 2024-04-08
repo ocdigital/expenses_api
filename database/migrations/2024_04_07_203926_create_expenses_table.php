@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('card_id')->constrained();
             $table->decimal('amount', 8, 2);
-            $table->string('description');  
+            $table->string('description');
             $table->timestamps();
         });
     }

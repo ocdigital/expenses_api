@@ -19,7 +19,7 @@ class ExpenseFactory extends Factory
         return [
             'card_id' => 1,
             'amount' => $this->faker->randomFloat(2, 0, 1000),
-            'description' => $this->faker->text(100)
+            'description' => $this->faker->text(100),
         ];
     }
 }

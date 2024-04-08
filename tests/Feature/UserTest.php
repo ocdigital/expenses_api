@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
@@ -13,7 +12,7 @@ describe('Unit Tests', function () {
     // tenta criar um usuário
     it('create user', function () {
         $user = User::factory()->create();
-        expect ($user->id)->toBe(1);
+        expect($user->id)->toBe(1);
 
     });
 
@@ -21,11 +20,12 @@ describe('Unit Tests', function () {
     it('prevent duplicate user', function () {
         $user = User::factory()->create();
         $user2 = User::factory()->make(['email' => $user->email]);
-        
+
         try {
             $user2->save();
         } catch (\Illuminate\Database\QueryException $e) {
             $this->assertStringContainsString('UNIQUE constraint', $e->getMessage());
+
             return;
         }
 
@@ -49,6 +49,5 @@ describe('Unit Tests', function () {
 });
 
 describe('Integration Tests', function () {
-
 
 })->todo();

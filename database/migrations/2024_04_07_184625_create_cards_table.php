@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cards', function (Blueprint $table) {
-            $table->id();            
+            $table->id();
             $table->bigInteger('number')->unique();
-            $table->decimal('balance', 10, 2)->default(0);            
-            $table->timestamps();            
+            $table->decimal('balance', 10, 2)->default(0);
+            $table->timestamps();
         });
     }
 

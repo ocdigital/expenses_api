@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\QueryException;
 use App\Models\Card;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 describe('Unit Tests', function () {
-   
+
     //Cards tests
     it('create card', function () {
         $card = Card::factory()->create();
-        expect ($card->id)->toBe(1);
+        expect($card->id)->toBe(1);
     });
 
     // tenta criar um cartão sem saldo especificado
@@ -34,7 +34,7 @@ describe('Unit Tests', function () {
     it('prevent negative balance card', function () {
         $card = Card::factory()->make(['balance' => -100]);
         expect($card->save())->toBeFalse();
-    });   
+    });
 
     //tentar atualizar um cartão
     it('update card', function () {
@@ -52,8 +52,6 @@ describe('Unit Tests', function () {
     });
 });
 
-
 describe('Integration Tests', function () {
-
 
 })->todo();

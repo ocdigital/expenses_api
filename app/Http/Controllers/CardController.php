@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Card;
+use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
@@ -13,6 +13,7 @@ class CardController extends Controller
         $card->number = $request->number;
         $card->balance = $request->balance;
         $card->save();
+
         return response()->json($card);
     }
 }

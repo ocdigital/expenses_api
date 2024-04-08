@@ -9,7 +9,7 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['number','balance'];
+    protected $fillable = ['number', 'balance'];
 
     public function expenses()
     {
@@ -18,7 +18,7 @@ class Card extends Model
 
     /**
      * The "booting" method of the model.
-     * 
+     *
      * @return void
      */
     protected static function boot()
