@@ -12,7 +12,7 @@ return new class extends Migration
             $table->boolean('is_admin')->default(false);
         });
     }
-    
+
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
