@@ -16,6 +16,11 @@ class Card extends Model
         return $this->hasMany(Expense::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * The "booting" method of the model.
      *

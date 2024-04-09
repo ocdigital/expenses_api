@@ -14,7 +14,7 @@ class UserController extends Controller
         if (! auth()->user())
             abort(401, 'Unauthenticated');
         
-        if (! auth()->user()->tokenCan('view-all-cards'))
+        if (! auth()->user()->tokenCan('admin'))
             return response()->json(['message' => 'Unauthorized'], 403);
     
         $users = User::all();
@@ -34,7 +34,7 @@ class UserController extends Controller
             abort(401, 'Unauthenticated');
         }
 
-        if (!$authUser->tokenCan('view-all-cards') && $authUser->id !== $user->id) {
+        if (!$authUser->tokenCan('admin') && $authUser->id !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
     }

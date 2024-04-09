@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAuthController extends Controller
 {
-    private const USER_PERMISSIONS = ['view-card'];
-
-    private const ADMIN_PERMISSIONS = ['view-all-cards', 'view-card'];
-
     public function register(Request $request, User $user)
     {
         $userData = $request->only('name', 'email', 'password', 'is_admin');
@@ -32,7 +28,7 @@ class UserAuthController extends Controller
     public function login(Request $request)
     {
         $user = $this->authenticate($request);
-        $permissions = $user->is_admin ? self::ADMIN_PERMISSIONS : self::USER_PERMISSIONS;
+        $permissions = $user->is_admin ? ['admin'] : ['user'];
         $token = $user->createToken('auth_token', $permissions);
 
         return response()->json([
