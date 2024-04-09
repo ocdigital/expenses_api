@@ -12,7 +12,7 @@ class CardRepository
     }
 
     public function create(array $data)
-    {   
+    {
         return Card::create($data);
     }
 

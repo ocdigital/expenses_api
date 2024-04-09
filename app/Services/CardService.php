@@ -53,7 +53,7 @@ class CardService
     }
 
     public function create($data)
-    {   
+    {
         $authorized = $this->authorizeUser($data);
 
         if ($authorized) {
@@ -91,7 +91,7 @@ class CardService
 
     public function delete(Card $card)
     {
-        
+
         $authorized = $this->authorizeUser($card->user);
 
         if ($authorized) {
@@ -102,7 +102,4 @@ class CardService
 
         return response()->json([], 204);
     }
-
-
-
 }

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
-use App\Models\User;
 use App\Services\CardService;
-use App\traits\AuthorizationTrait;
 use Illuminate\Http\Request;
-
 
 class CardController extends Controller
 {
@@ -26,7 +23,7 @@ class CardController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {
         return $this->cardService->create($request);
     }
 
