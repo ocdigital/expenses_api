@@ -2,13 +2,10 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 use App\Models\Expense;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class ExpenseCreated extends Mailable
 {
@@ -24,7 +21,6 @@ class ExpenseCreated extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\Expense  $expense
      * @return void
      */
     public function __construct(Expense $expense)
@@ -40,6 +36,6 @@ class ExpenseCreated extends Mailable
     public function build()
     {
         return $this->subject('Despesa Criada')
-                    ->view('emails.expense.created');
+            ->view('emails.expense.created');
     }
 }

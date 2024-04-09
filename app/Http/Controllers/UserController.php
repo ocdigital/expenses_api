@@ -2,93 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Services\AuthService;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
-    {   
-        if (! auth()->user())
-            abort(401, 'Unauthenticated');
-        
-        if (! auth()->user()->tokenCan('admin'))
-            return response()->json(['message' => 'Unauthorized'], 403);
-    
-        $users = User::all();
-        
-        return response()->json([
-            'data' => [
-                'users' => $users
-            ],
-        ]);
+    public function __construct(protected UserService $userService, protected AuthService $authService)
+    {
+
     }
 
-    private function authorizeUser(User $user)
+    public function index()
     {
-        $authUser = auth()->user();
-
-        if (!$authUser) {
-            abort(401, 'Unauthenticated');
-        }
-
-        if (!$authUser->tokenCan('admin') && $authUser->id !== $user->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        return $this->userService->all();
     }
 
     public function show(User $user)
     {
-        $authorized = $this->authorizeUser($user);
+        return $this->userService->show($user);
+    }
 
-        if ($authorized) 
-            return $authorized;
-        
-        
-        return response()->json([
-            'data' => [
-                'user' => $user
-            ],
-        ]);
+    public function store(Request $request)
+    {
+        return $this->userService->create($request);
     }
 
     public function update(Request $request, User $user)
-    {   
-        $authorized = $this->authorizeUser($user);
-        
-        if ($authorized) 
-            return $authorized;    
-
-        $user = auth()->user();
-        $userData = $request->only('name', 'email', 'password');
-        
-        if($request->has('password'))
-            $userData['password'] = Hash::make($userData['password']);
-
-        if (! $user->update($userData)) {
-            abort(500, 'User Update Failed');
-        }
-
-        return response()->json([
-            'data' => [
-                'user' => $user,
-            ],
-        ]);
+    {
+        return $this->userService->update($request, $user);
     }
 
     public function destroy(User $user)
-    {   
-        $authorized = $this->authorizeUser($user);
-        
-        if ($authorized) 
-            return $authorized;       
-        
-        if (! $user->delete()) {
-            abort(500, 'User Deletion Failed');
-        }
+    {
+        return $this->userService->delete($user);
+    }
 
-        return response()->json([], 204);
+    public function login(Request $request)
+    {
+        return $this->authService->login($request);
+    }
+
+    public function logout()
+    {
+        return $this->authService->logout();
     }
 }
