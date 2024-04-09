@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use App\Mail\ExpenseCreated;
 use App\Models\Card;
 use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use App\traits\AuthorizationTrait;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class ExpenseService
 {
@@ -105,8 +103,6 @@ class ExpenseService
 
             $card->balance -= $amount;
             $card->save();
-
-            Mail::to($card->user->email)->send(new ExpenseCreated($expense));
 
             DB::commit();
 
