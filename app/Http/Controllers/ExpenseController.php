@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ExpenseCreated;
-use App\Models\Card;
 use App\Models\Expense;
-use App\Models\User;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class ExpenseController extends Controller
-{  
-
+{
     public function __construct(protected ExpenseService $expenseService)
     {
 
@@ -22,7 +16,7 @@ class ExpenseController extends Controller
 
     public function index()
     {
-        return $this->expenseService->all();  
+        return $this->expenseService->all();
     }
 
     public function show(Expense $expense)

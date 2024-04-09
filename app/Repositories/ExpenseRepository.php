@@ -4,9 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Expense;
 
-
-class ExpenseRepository{
-
+class ExpenseRepository
+{
     public function all()
     {
         return Expense::all();

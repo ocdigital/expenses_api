@@ -2,8 +2,6 @@
 
 namespace App\traits;
 
-use App\Models\Card;
-
 trait AuthorizationTrait
 {
     protected function authorizeUser($user)
@@ -23,7 +21,7 @@ trait AuthorizationTrait
     }
 
     protected function authorizeCardOwner($card)
-    {           
+    {
         if (! auth()->user()->tokenCan('admin') && auth()->user()->id !== $card->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }

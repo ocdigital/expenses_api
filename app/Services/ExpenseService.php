@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
+use App\Mail\ExpenseCreated;
+use App\Models\Card;
 use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use App\traits\AuthorizationTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ExpenseCreated;
-use App\Models\Card;
 
 class ExpenseService
 {
@@ -60,7 +60,7 @@ class ExpenseService
         if (! $card) {
             return response()->json(['message' => 'Card not found or insufficient balance'], 400);
         }
-               
+
         $authorizedCard = $this->authorizeCardOwner($card);
         if ($authorizedCard) {
             return $$authorizedCard;
@@ -68,6 +68,7 @@ class ExpenseService
 
         try {
             $expense = $this->createExpense($card, $request->amount, $request->description);
+
             return response()->json([
                 'data' => [
                     'expense' => $expense,
@@ -82,13 +83,13 @@ class ExpenseService
     {
         $card = Card::where('number', $cardNumber)->first();
         if (! $card) {
-            return null; 
+            return null;
         }
-    
+
         if ($card->balance < $amount) {
-            return null; 
+            return null;
         }
-    
+
         return $card;
     }
 
@@ -105,7 +106,7 @@ class ExpenseService
             $card->balance -= $amount;
             $card->save();
 
-            Mail::to($card->user->email)->send(new ExpenseCreated($expense));                 
+            Mail::to($card->user->email)->send(new ExpenseCreated($expense));
 
             DB::commit();
 
@@ -115,6 +116,4 @@ class ExpenseService
             throw $e;
         }
     }
-
-    
 }
