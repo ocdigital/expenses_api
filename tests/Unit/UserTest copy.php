@@ -15,8 +15,8 @@ it('create user', function () {
     expect($user->name)->toBe('Usuario Teste');
     expect($user->email)->toBe('usuario@teste.com');
     expect(Hash::check('teste', $user->password))->toBeTrue();
-    
-});  
+
+});
 
 it('update user', function () {
     $user = User::factory()->make([
@@ -28,7 +28,7 @@ it('update user', function () {
     $user->name = 'Usuario Teste 2';
     $user->email = 'novoemail@test.com';
     $user->password = Hash::make('teste2');
-    
+
     expect($user->name)->toBe('Usuario Teste 2');
     expect($user->email)->toBe('novoemail@test.com');
     expect(Hash::check('teste2', $user->password))->toBeTrue();
@@ -45,4 +45,3 @@ it('delete user', function () {
     $user->delete();
     expect($user->exists)->toBeFalse();
 });
-

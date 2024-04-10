@@ -90,15 +90,15 @@ class ExpenseService
         if ($authorized) {
             return $authorized;
         }
-        $expense->update([               
-            'description' => $data['description'],              
-        ]);       
+        $expense->update([
+            'description' => $data['description'],
+        ]);
 
         return response()->json([
             'data' => [
                 'expense' => $expense,
             ],
-        ], 200);      
+        ], 200);
     }
 
     public function delete(Expense $expense)
@@ -117,7 +117,6 @@ class ExpenseService
             ],
         ], 200);
     }
-
 
     protected function validateCard($cardNumber, $amount)
     {

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Card;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -12,13 +12,13 @@ it('cant create a new card', function () {
     $user = User::factory()->create();
     $token = $user->createToken('test-token')->plainTextToken;
     $cardData = [
-       'number' => '1234567890123456',
-       'balance' => 1000,
+        'number' => '1234567890123456',
+        'balance' => 1000,
         'user_id' => $user->id,
     ];
- 
+
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
+        'Authorization' => 'Bearer '.$token,
     ])->postJson('/api/cards', $cardData);
 
     $response->assertStatus(201);
@@ -39,7 +39,7 @@ it('can list all cards', function () {
     $token = $user->createToken('test-token')->plainTextToken;
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
+        'Authorization' => 'Bearer '.$token,
     ])->getJson('/api/cards');
 
     $response->assertStatus(200);
@@ -57,13 +57,12 @@ it('can show a card', function () {
     $token = $user->createToken('test-token')->plainTextToken;
 
     $card = Card::factory()->create([
-        'user_id' => $user->id, 
+        'user_id' => $user->id,
     ]);
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->getJson('/api/cards/' . $card->id);
-
+        'Authorization' => 'Bearer '.$token,
+    ])->getJson('/api/cards/'.$card->id);
 
     $response->assertStatus(200);
 
@@ -82,13 +81,13 @@ it('can update a card', function () {
         'user_id' => $user->id,
     ]);
 
-    $cardData = [        
-        'balance' => 1000   
+    $cardData = [
+        'balance' => 1000,
     ];
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/cards/' . $card->id, $cardData);
+        'Authorization' => 'Bearer '.$token,
+    ])->putJson('/api/cards/'.$card->id, $cardData);
 
     $response->assertStatus(200);
 
@@ -112,13 +111,8 @@ it('can delete a card', function () {
     ]);
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->deleteJson('/api/cards/' . $card->id);
+        'Authorization' => 'Bearer '.$token,
+    ])->deleteJson('/api/cards/'.$card->id);
 
     $response->assertStatus(204);
 });
-
-   
-
-
-

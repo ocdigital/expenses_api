@@ -17,6 +17,6 @@ class ExpenseObserver
     public function updated(Expense $expense)
     {
         Log::info('Expense updated');
-        SendExpenseUpdatedEmail::dispatch($expense);        
+        SendExpenseUpdatedEmail::dispatch($expense);
     }
 }

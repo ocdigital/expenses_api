@@ -13,15 +13,15 @@ it('can create a new user', function () {
     $userData = [
         'name' => 'John Doe1',
         'email' => 'john1@example.com',
-        'password' => 'password123', 
+        'password' => 'password123',
     ];
- 
+
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
+        'Authorization' => 'Bearer '.$token,
     ])->postJson('/api/users', $userData);
 
     $response->assertStatus(201);
-        
+
     $response->assertJsonStructure([
         'data' => [
             'user' => [
@@ -40,7 +40,7 @@ it('can list all users', function () {
     $token = $user->createToken('test-token')->plainTextToken;
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
+        'Authorization' => 'Bearer '.$token,
     ])->getJson('/api/users');
 
     $response->assertStatus(200);
@@ -57,8 +57,8 @@ it('can show a user', function () {
     $token = $user->createToken('test-token')->plainTextToken;
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->getJson('/api/users/' . $user->id);
+        'Authorization' => 'Bearer '.$token,
+    ])->getJson('/api/users/'.$user->id);
 
     $response->assertStatus(200);
 
@@ -85,8 +85,8 @@ it('can update a user', function () {
     ];
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/users/' . $user->id, $userData);
+        'Authorization' => 'Bearer '.$token,
+    ])->putJson('/api/users/'.$user->id, $userData);
 
     $response->assertStatus(200);
 
@@ -108,13 +108,8 @@ it('can delete a user', function () {
     $token = $user->createToken('test-token')->plainTextToken;
 
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->deleteJson('/api/users/' . $user->id);
+        'Authorization' => 'Bearer '.$token,
+    ])->deleteJson('/api/users/'.$user->id);
 
     $response->assertStatus(204);
 });
-
-
-
-
- 

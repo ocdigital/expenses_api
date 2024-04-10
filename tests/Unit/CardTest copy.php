@@ -41,7 +41,7 @@ describe('Unit Tests', function () {
     //tentar atualizar um cartão
     it('update card', function () {
         $user = User::factory()->create();
-        $card = Card::factory()->create(['user_id' => $user->id]);        
+        $card = Card::factory()->create(['user_id' => $user->id]);
         $card->balance = 100;
         $card->save();
         expect($card->balance)->toBe(100);

@@ -18,7 +18,7 @@ class CardFactory extends Factory
     {
         return [
             'number' => $this->faker->unique()->randomNumber(9),
-            'balance' => $this->faker->randomFloat(2, 0, 1000),            
+            'balance' => $this->faker->randomFloat(2, 0, 1000),
         ];
     }
 }

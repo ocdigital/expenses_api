@@ -2,7 +2,6 @@
 
 use App\Models\User;
 
-
 it('creates a user', function () {
     $user = User::factory()->make([
         'name' => 'Usuario Teste',
@@ -11,11 +10,7 @@ it('creates a user', function () {
     ]);
 
     $this->assertInstanceOf(User::class, $user);
-    $this->assertNotNull($user->name); 
-    $this->assertNotNull($user->email); 
-    $this->assertNotNull($user->password); 
+    $this->assertNotNull($user->name);
+    $this->assertNotNull($user->email);
+    $this->assertNotNull($user->password);
 });
-
-
-
-
