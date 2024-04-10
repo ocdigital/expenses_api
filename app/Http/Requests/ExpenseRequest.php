@@ -4,6 +4,31 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="ExpenseRequest",
+ *     required={"number", "amount", "description"},
+ *     @OA\Property(
+ *         property="number",
+ *         type="integer",
+ *         description="O número do cartão",
+ *         example="1234567890123456"
+ *     ),
+ *     @OA\Property(
+ *         property="amount",
+ *         type="number",
+ *         description="O valor da despesa",
+ *         example="100.00"
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *         description="A descrição da despesa",
+ *         example="Compra de material de escritório"
+ *     )
+ * )
+ */
+
 class ExpenseRequest extends FormRequest
 {
     /**
@@ -18,7 +43,8 @@ class ExpenseRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+     */   
+
     public function rules(): array
     {
         switch ($this->method()) {

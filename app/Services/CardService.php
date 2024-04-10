@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Card;
 use App\Repositories\CardRepository;
 use App\traits\AuthorizationTrait;
+use Illuminate\Http\JsonResponse;
 
 class CardService
 {
@@ -14,7 +15,7 @@ class CardService
     {
     }
 
-    public function all()
+    public function all(): JsonResponse
     {
         $authorized = $this->authorizeUser(auth()->user());
 
@@ -35,7 +36,7 @@ class CardService
         ], 200);
     }
 
-    public function show(Card $card)
+    public function show(Card $card): JsonResponse
     {
         $authorized = $this->authorizeUser($card->user);
 
@@ -52,7 +53,7 @@ class CardService
         ], 200);
     }
 
-    public function create($data)
+    public function create($data): JsonResponse
     {
         $authorized = $this->authorizeUser($data);
 
@@ -69,7 +70,7 @@ class CardService
         ], 201);
     }
 
-    public function update($data, Card $card)
+    public function update($data, Card $card): JsonResponse
     {
         $authorized = $this->authorizeUser($card->user);
 
@@ -93,7 +94,7 @@ class CardService
 
     }
 
-    public function delete(Card $card)
+    public function delete(Card $card): JsonResponse
     {
 
         $authorized = $this->authorizeUser($card->user);

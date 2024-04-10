@@ -4,6 +4,31 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="CardRequest",
+ *     required={"number", "balance", "user_id"},
+ *     @OA\Property(
+ *         property="number",
+ *         type="string",
+ *         description="Número do Cartão",
+ *         example="1234567890123456"
+ *     ),
+ *     @OA\Property(
+ *         property="balance",
+ *         type="number",
+ *         description="Saldo do Cartão",
+ *         example="100.00"
+ *     ),
+ *     @OA\Property(
+ *         property="user_id",
+ *         type="string",
+ *         description="ID do Usuário",
+ *         example="1"
+ *     )
+ * )
+ */
+
 class CardRequest extends FormRequest
 {
     /**

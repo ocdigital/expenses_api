@@ -2,6 +2,34 @@
 
 namespace App\Http\Requests;
 
+/**
+ * @OA\Schema(
+ *     schema="UserRequest",
+ *     required={"name", "email", "password"},
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         description="O nome do usuário",
+ *         example="John Doe"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         format="email",
+ *         description="O email do usuário",
+ *         example="usuario@teste.com"
+ *     ),
+ *     @OA\Property(
+ *         property="password",
+ *         type="string",
+ *         format="password",
+ *         description="A senha do usuário",
+ *         example="12345678"
+ *     )
+ * )
+ */
+
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest

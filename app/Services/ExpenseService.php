@@ -7,6 +7,7 @@ use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use App\traits\AuthorizationTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
 
 class ExpenseService
 {
@@ -16,7 +17,7 @@ class ExpenseService
     {
     }
 
-    public function all()
+    public function all(): JsonResponse
     {
         $authorized = $this->authorizeUser(auth()->user());
 
@@ -37,7 +38,7 @@ class ExpenseService
         ], 200);
     }
 
-    public function show(Expense $expense)
+    public function show(Expense $expense): JsonResponse
     {
         $authorized = $this->authorizeUser(auth()->user(), $expense);
 
@@ -51,8 +52,8 @@ class ExpenseService
             ],
         ], 200);
     }
-
-    public function create($data)
+    
+    public function create($data): JsonResponse
     {
         $authorized = $this->authorizeUser($data);
 
@@ -83,7 +84,7 @@ class ExpenseService
         }
     }
 
-    public function update(Expense $expense, $data)
+    public function update(Expense $expense, $data): JsonResponse
     {
         $authorized = $this->authorizeAdmin();
 
@@ -101,7 +102,7 @@ class ExpenseService
         ], 200);
     }
 
-    public function delete(Expense $expense)
+    public function delete(Expense $expense): JsonResponse
     {
         $authorized = $this->authorizeAdmin();
 
@@ -118,7 +119,7 @@ class ExpenseService
         ], 200);
     }
 
-    protected function validateCard($cardNumber, $amount)
+    protected function validateCard($cardNumber, $amount): ?Card
     {
         $card = Card::where('number', $cardNumber)->first();
         if (! $card) {
@@ -132,7 +133,7 @@ class ExpenseService
         return $card;
     }
 
-    protected function createExpense($card, $amount, $description)
+    protected function createExpense($card, $amount, $description): Expense
     {
         DB::beginTransaction();
         try {

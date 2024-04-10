@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Log;
 
 class ExpenseObserver
 {
-    public function created(Expense $expense)
+    public function created(Expense $expense): void
     {
         SendExpenseCreatedEmail::dispatch($expense);
     }
 
-    public function updated(Expense $expense)
+    public function updated(Expense $expense): void
     {
         Log::info('Expense updated');
         SendExpenseUpdatedEmail::dispatch($expense);

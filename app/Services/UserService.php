@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\traits\AuthorizationTrait;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 class UserService
 {
@@ -15,7 +16,7 @@ class UserService
     {
     }
 
-    public function all()
+    public function all(): JsonResponse
     {
         $authorized = $this->authorizeAdmin();
 
@@ -32,7 +33,7 @@ class UserService
         ]);
     }
 
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
         $authorized = $this->authorizeUser($user);
 
@@ -47,7 +48,7 @@ class UserService
         ]);
     }
 
-    public function create($data)
+    public function create($data): JsonResponse
     {
         $authorized = $this->authorizeAdmin();
 
@@ -66,7 +67,7 @@ class UserService
         ], 201);
     }
 
-    public function update($data, User $user)
+    public function update($data, User $user): JsonResponse
     {
         $authorized = $this->authorizeUser($user);
 
@@ -89,7 +90,7 @@ class UserService
         ], 200);
     }
 
-    public function delete(User $user)
+    public function delete(User $user): JsonResponse
     {
         $authorized = $this->authorizeUser($user);
 
