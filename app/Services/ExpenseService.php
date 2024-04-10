@@ -52,9 +52,16 @@ class ExpenseService
         ]);
     }
 
-    public function create($request)
-    {
-        $card = $this->validateCard($request->number, $request->amount);
+    public function create($data)
+    {   
+        $authorized = $this->authorizeUser($data);
+
+        if ($authorized) {
+            return $authorized;
+        }
+
+   
+        $card = $this->validateCard($data['number'], $data['amount']);
         if (! $card) {
             return response()->json(['message' => 'Card not found or insufficient balance'], 400);
         }
@@ -65,7 +72,7 @@ class ExpenseService
         }
 
         try {
-            $expense = $this->createExpense($card, $request->amount, $request->description);
+            $expense = $this->createExpense($card, $data['amount'], $data['description']);
 
             return response()->json([
                 'data' => [

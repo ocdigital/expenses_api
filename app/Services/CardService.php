@@ -54,13 +54,14 @@ class CardService
 
     public function create($data)
     {
+        dd($data);
         $authorized = $this->authorizeUser($data);
 
         if ($authorized) {
             return $authorized;
         }
 
-        $card = $this->cardRepository->create($data->all());
+        $card = $this->cardRepository->create($data);
 
         return response()->json([
             'data' => [
@@ -77,11 +78,11 @@ class CardService
             return $authorized;
         }
 
-        if (count($data->all()) > 1 || ! array_key_exists('balance', $data->all())) {
+        if (count($data) > 1 || ! array_key_exists('balance', $data)) {
             return response()->json(['message' => 'Invalid request. Only the balance field can be updated.'], 400);
         }
 
-        $this->cardRepository->update($card, $data->all());
+        $this->cardRepository->update($card, $data);
 
         $updatedCard = Card::find($card->id);
 

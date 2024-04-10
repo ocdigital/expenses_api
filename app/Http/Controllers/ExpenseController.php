@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExpenseRequest;
 use App\Models\Expense;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class ExpenseController extends Controller
 {
@@ -24,18 +26,20 @@ class ExpenseController extends Controller
         return $this->expenseService->show($expense);
     }
 
-    public function store(Request $request)
-    {
-        return $this->expenseService->create($request);
+    public function store(ExpenseRequest $request)
+    {   
+        $validated = $request->validated();
+        return $this->expenseService->create($validated);
     }
 
-    public function update(Request $request, Expense $expense)
+    public function update(ExpenseRequest $request, Expense $expense)
     {
         if (! Auth::user()->tokenCan('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $expense->update($request->only('amount', 'description'));
+        $validated = $request->validated();
+        $expense->update($validated);
 
         return response()->json(['expense' => $expense]);
     }

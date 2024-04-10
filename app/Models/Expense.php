@@ -19,4 +19,20 @@ class Expense extends Model
     {
         return $this->belongsTo(Card::class);
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($expense) {
+            if ($expense->amount < 0) {
+                return false;
+            }
+        });
+    }
 }
