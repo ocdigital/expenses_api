@@ -26,13 +26,13 @@ class CardRequest extends FormRequest
                 return [
                     'number' => 'required|unique:cards|string|max:255',
                     'balance' => 'required|numeric|min:0',
-                    'user_id' => 'required|integer|exists:users,id',
+                    'user_id' => 'required|string|exists:users,id',
                 ];
             case 'PUT':
                 return [
                     'number' => 'sometimes|unique:cards|string|max:255',
                     'balance' => 'sometimes|numeric|min:0',
-                    'user_id' => 'sometimes|integer|exists:users,id',
+                    'user_id' => 'sometimes|string|exists:users,id',
                 ];
             default:
                 return [];

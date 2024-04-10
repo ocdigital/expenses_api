@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('card_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();    
+            $table->uuid('card_id');        
+            $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
             $table->decimal('amount', 8, 2);
             $table->string('description');
             $table->timestamps();

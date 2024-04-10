@@ -54,7 +54,6 @@ class CardService
 
     public function create($data)
     {
-        dd($data);
         $authorized = $this->authorizeUser($data);
 
         if ($authorized) {
