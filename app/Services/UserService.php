@@ -57,7 +57,7 @@ class UserService
 
         $data['password'] = Hash::make($data['password']);
 
-        $user = $this->userRepository->create($data->all());
+        $user = $this->userRepository->create($data);
 
         return response()->json([
             'data' => [
@@ -74,11 +74,11 @@ class UserService
             return $authorized;
         }
 
-        if ($data->has('password')) {
+        if (array_key_exists('password', $data)) {
             $data['password'] = Hash::make($data['password']);
         }
 
-        if (! $this->userRepository->update($user, $data->all())) {
+        if (! $this->userRepository->update($user, $data)) {
             abort(500, 'User Update Failed');
         }
 

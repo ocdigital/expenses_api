@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
@@ -24,14 +25,16 @@ class UserController extends Controller
         return $this->userService->show($user);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        return $this->userService->create($request);
+        $validated = $request->validated();
+        return $this->userService->create($validated);
     }
 
-    public function update(Request $request, User $user)
-    {
-        return $this->userService->update($request, $user);
+    public function update(UserRequest $request, User $user)
+    {   
+        $validated = $request->validated();
+        return $this->userService->update($validated, $user);
     }
 
     public function destroy(User $user)
