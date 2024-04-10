@@ -8,7 +8,7 @@
 <body>
     <h2>{{ $expense->description }}</h2>
 
-    <p>Essa despesa foi atualizada:</p>
+    <p>Uma nova despesa foi criada com sucesso:</p>
 
     <ul>
         <li><strong>Valor:</strong> R$ {{ number_format($expense->amount, 2, ',', '.') }}</li>

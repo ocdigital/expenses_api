@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\ExpenseCreated;
+use App\Mail\ExpenseUpdated;
 use App\Models\Expense;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -11,8 +11,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
-class SendExpenseCreatedEmail implements ShouldQueue
+class SendExpenseUpdatedEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,12 +23,13 @@ class SendExpenseCreatedEmail implements ShouldQueue
     }
 
     public function handle(): void
-    {
+    {   
+        Log::info('SendExpenseUpdatedEmail');
         $admins = User::where('is_admin', 1)->get();
         foreach ($admins as $admin) {
-            Mail::to($admin->email)->send(new ExpenseCreated($this->expense));
+            Mail::to($admin->email)->send(new ExpenseUpdated($this->expense));
         }
         $user = $this->expense->card->user;
-        Mail::to($user->email)->send(new ExpenseCreated($this->expense));
+        Mail::to($user->email)->send(new ExpenseUpdated($this->expense));
     }
 }

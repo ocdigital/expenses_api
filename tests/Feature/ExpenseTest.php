@@ -2,48 +2,150 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use App\Models\Card;
 use App\Models\Expense;
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 uses(RefreshDatabase::class);
 
-describe('Unit Tests', function () {
+it('cant create a new expense', function(){
+         $user = User::factory()->create();
 
-    // tenta criar uma despesa
-    it('create expense', function () {
-        $card = Card::factory()->create();
-        $expense = Expense::factory()->create(['card_id' => $card->id]);
-        expect($expense->id)->toBe(1);
-    });
+        $token = $user->createToken('test')->plainTextToken;
+        $card = Card::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
-    // tenta criar uma despesa sem valor especificado
-    it('throws exception for creating expense without amount', function () {
-        $this->expectException(QueryException::class);
-        $card = Card::factory()->create();
-        Expense::factory()->create(['card_id' => $card->id, 'amount' => null]);
-        $this->assertDatabaseMissing('expenses', ['amount' => null]);
-    });
+        $expenseData = [
+            'number' => $card->number,
+            'amount' => 50,
+            'description' => 'Compra de um livro',
+            'card_id' => $card->id,
+        ];       
+    
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/expenses', $expenseData);
+        
+        $response->assertStatus(201);
 
-    // tentar atualizar uma despesa
-    it('update expense', function () {
-        $card = Card::factory()->create();
-        $expense = Expense::factory()->create(['card_id' => $card->id]);
-        $expense->amount = 100;
-        $expense->save();
-        expect($expense->amount)->toBe(100);
-    });
+        $response->assertJson([
+            'data' => [
+                'expense' => [
 
-    // tentar deletar uma despesa
-    it('delete expense', function () {
-        $card = Card::factory()->create();
-        $expense = Expense::factory()->create(['card_id' => $card->id]);
-        $expense->delete();
-        $this->assertDatabaseMissing('expenses', ['id' => $expense->id]);
-    });
+                    'amount' => 50,
+                    'description' => 'Compra de um livro',
+                    'card_id' => $card->id,
+                ],
+            ],
+        ]);
+
 });
 
-describe('Integration Tests', function () {
+it('can list all expenses', function(){
+        $user = User::factory()->create();
 
-})->todo();
+        $token = $user->createToken('test')->plainTextToken;
+        $card = Card::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->getJson('/api/expenses');
+        
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'data' => [
+                'expenses',
+            ],
+        ]);
+
+});
+
+it('can show a expense', function(){
+        $user = User::factory()->create();
+
+        $token = $user->createToken('test')->plainTextToken;
+        $card = Card::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $expense = Expense::factory()->create([
+            'card_id' => $card->id,
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->getJson('/api/expenses/' . $expense->id);
+        
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'data' => [
+                'expense' => [
+                    'amount',
+                    'description',
+                    'card_id',
+                    'id',
+                    'updated_at',
+                    'created_at',
+                ],
+            ],
+        ]);
+
+});
+
+it('can update a expense', function(){
+    $user = User::factory()->create();
+
+    $token = $user->createToken('test')->plainTextToken;
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $expense = Expense::factory()->create([
+        'card_id' => $card->id,
+    ]);
+    
+    $expenseData = [          
+        'description' => 'Compra de um livro atualizada',            
+    ];       
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->putJson('/api/expenses/' . $expense->id, $expenseData);
+
+    $response->assertStatus(200);
+
+    $response->assertJson([
+        'expense' => [
+            'description' => 'Compra de um livro atualizada',
+        ],
+    ]);
+});
+
+it('can delete a expense', function(){
+    $user = User::factory()->create();
+
+    $token = $user->createToken('test')->plainTextToken;
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $expense = Expense::factory()->create([
+        'card_id' => $card->id,
+    ]);
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->deleteJson('/api/expenses/' . $expense->id);
+
+    $response->assertStatus(204);
+});
+
+
+

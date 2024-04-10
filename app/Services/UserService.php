@@ -63,7 +63,7 @@ class UserService
             'data' => [
                 'user' => $user,
             ],
-        ]);
+        ], 201);
     }
 
     public function update($data, User $user)
@@ -86,7 +86,7 @@ class UserService
             'data' => [
                 'user' => $user,
             ],
-        ]);
+        ], 200);
     }
 
     public function delete(User $user)

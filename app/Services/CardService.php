@@ -32,7 +32,7 @@ class CardService
             'data' => [
                 'cards' => $cards,
             ],
-        ]);
+        ], 200);
     }
 
     public function show(Card $card)
@@ -49,7 +49,7 @@ class CardService
             'data' => [
                 'card' => $card,
             ],
-        ]);
+        ], 200);
     }
 
     public function create($data)
@@ -66,7 +66,7 @@ class CardService
             'data' => [
                 'card' => $card,
             ],
-        ]);
+        ], 201);
     }
 
     public function update($data, Card $card)
@@ -85,7 +85,11 @@ class CardService
 
         $updatedCard = Card::find($card->id);
 
-        return response()->json(['card' => $updatedCard]);
+        return response()->json([
+            'data' => [
+                'card' => $card,
+            ],
+        ], 200);
 
     }
 

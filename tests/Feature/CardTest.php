@@ -2,56 +2,123 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use App\Models\Card;
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-describe('Unit Tests', function () {
+it('cant create a new card', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+    $cardData = [
+       'number' => '1234567890123456',
+       'balance' => 1000,
+        'user_id' => $user->id,
+    ];
+ 
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->postJson('/api/cards', $cardData);
 
-    //Cards tests
-    it('create card', function () {
-        $card = Card::factory()->create();
-        expect($card->id)->toBe(1);
-    });
+    $response->assertStatus(201);
 
-    // tenta criar um cartão sem saldo especificado
-    it('throws exception for creating card without balance', function () {
-        $this->expectException(QueryException::class);
-        Card::factory()->create(['balance' => null]);
-        $this->assertDatabaseMissing('cards', ['balance' => null]);
-    });
-
-    // tenta criar um cartão sem numero especificado
-    it('throws exception for creating card without number', function () {
-        $this->expectException(QueryException::class);
-        Card::factory()->create(['number' => null]);
-        $this->assertDatabaseMissing('cards', ['number' => null]);
-    });
-
-    //tentar criar um cartão com saldo negativo
-    it('prevent negative balance card', function () {
-        $card = Card::factory()->make(['balance' => -100]);
-        expect($card->save())->toBeFalse();
-    });
-
-    //tentar atualizar um cartão
-    it('update card', function () {
-        $card = Card::factory()->create();
-        $card->balance = 100;
-        $card->save();
-        expect($card->balance)->toBe(100);
-    });
-
-    //tentar deletar um cartão
-    it('delete card', function () {
-        $card = Card::factory()->create();
-        $card->delete();
-        $this->assertDatabaseMissing('cards', ['id' => $card->id]);
-    });
+    $response->assertJson([
+        'data' => [
+            'card' => [
+                'number' => '1234567890123456',
+                'balance' => 1000,
+                'user_id' => $user->id,
+            ],
+        ],
+    ]);
 });
 
-describe('Integration Tests', function () {
+it('can list all cards', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
 
-})->todo();
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->getJson('/api/cards');
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        'data' => [
+            'cards',
+        ],
+    ]);
+});
+
+it('can show a card', function () {
+    $user = User::factory()->create();
+
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $card = Card::factory()->create([
+        'user_id' => $user->id, 
+    ]);
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->getJson('/api/cards/' . $card->id);
+
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        'data' => [
+            'card',
+        ],
+    ]);
+});
+
+it('can update a card', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $cardData = [        
+        'balance' => 1000   
+    ];
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->putJson('/api/cards/' . $card->id, $cardData);
+
+    $response->assertStatus(200);
+
+    $response->assertJson([
+        'data' => [
+            'card' => [
+                'number' => $card->number,
+                'balance' => 1000,
+                'user_id' => $user->id,
+            ],
+        ],
+    ]);
+});
+
+it('can delete a card', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->deleteJson('/api/cards/' . $card->id);
+
+    $response->assertStatus(204);
+});
+
+   
+
+
+

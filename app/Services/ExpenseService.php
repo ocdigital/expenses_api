@@ -34,7 +34,7 @@ class ExpenseService
             'data' => [
                 'expenses' => $expenses,
             ],
-        ]);
+        ], 200);
     }
 
     public function show(Expense $expense)
@@ -49,7 +49,7 @@ class ExpenseService
             'data' => [
                 'expense' => $expense,
             ],
-        ]);
+        ], 200);
     }
 
     public function create($data)
@@ -77,11 +77,47 @@ class ExpenseService
                 'data' => [
                     'expense' => $expense,
                 ],
-            ]);
+            ], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function update(Expense $expense, $data)
+    {
+        $authorized = $this->authorizeAdmin();
+
+        if ($authorized) {
+            return $authorized;
+        }
+        $expense->update([               
+            'description' => $data['description'],              
+        ]);       
+
+        return response()->json([
+            'data' => [
+                'expense' => $expense,
+            ],
+        ], 200);      
+    }
+
+    public function delete(Expense $expense)
+    {
+        $authorized = $this->authorizeAdmin();
+
+        if ($authorized) {
+            return $authorized;
+        }
+
+        $expense->delete();
+
+        return response()->json([
+            'data' => [
+                'message' => 'Expense deleted successfully',
+            ],
+        ], 200);
+    }
+
 
     protected function validateCard($cardNumber, $amount)
     {

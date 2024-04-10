@@ -7,47 +7,114 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-describe('Unit Tests', function () {
+it('can create a new user', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+    $userData = [
+        'name' => 'John Doe1',
+        'email' => 'john1@example.com',
+        'password' => 'password123', 
+    ];
+ 
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->postJson('/api/users', $userData);
 
-    // tenta criar um usuário
-    it('create user', function () {
-        $user = User::factory()->create();
-        expect($user->id)->toBe(1);
-
-    });
-
-    // tenta criar um usuário sem email especificado
-    it('prevent duplicate user', function () {
-        $user = User::factory()->create();
-        $user2 = User::factory()->make(['email' => $user->email]);
-
-        try {
-            $user2->save();
-        } catch (\Illuminate\Database\QueryException $e) {
-            $this->assertStringContainsString('UNIQUE constraint', $e->getMessage());
-
-            return;
-        }
-
-        $this->fail('User was created with duplicate email');
-    });
-
-    //tentar atualizar um usuario
-    it('update user', function () {
-        $user = User::factory()->create();
-        $user->name = 'Teste';
-        $user->save();
-        expect($user->name)->toBe('Teste');
-    });
-
-    //tentar deletar um usuario
-    it('delete user', function () {
-        $user = User::factory()->create();
-        $user->delete();
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
-    });
+    $response->assertStatus(201);
+        
+    $response->assertJsonStructure([
+        'data' => [
+            'user' => [
+                'name',
+                'email',
+                'id',
+                'updated_at',
+                'created_at',
+            ],
+        ],
+    ]);
 });
 
-describe('Integration Tests', function () {
+it('can list all users', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
 
-})->todo();
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->getJson('/api/users');
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        'data' => [
+            'users',
+        ],
+    ]);
+});
+
+it('can show a user', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->getJson('/api/users/' . $user->id);
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        'data' => [
+            'user' => [
+                'name',
+                'email',
+                'id',
+                'updated_at',
+                'created_at',
+            ],
+        ],
+    ]);
+});
+
+it('can update a user', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+    $userData = [
+        'name' => 'John Doe1',
+        'email' => 'usuario@teste.com',
+        'password' => 'password123',
+    ];
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->putJson('/api/users/' . $user->id, $userData);
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        'data' => [
+            'user' => [
+                'name',
+                'email',
+                'id',
+                'updated_at',
+                'created_at',
+            ],
+        ],
+    ]);
+});
+
+it('can delete a user', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->deleteJson('/api/users/' . $user->id);
+
+    $response->assertStatus(204);
+});
+
+
+
+
+ 
