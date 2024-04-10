@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExpenseRequest;
 use App\Models\Expense;
 use App\Services\ExpenseService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 
 class ExpenseController extends Controller
 {
@@ -27,8 +25,9 @@ class ExpenseController extends Controller
     }
 
     public function store(ExpenseRequest $request)
-    {   
+    {
         $validated = $request->validated();
+
         return $this->expenseService->create($validated);
     }
 

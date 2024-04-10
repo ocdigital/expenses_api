@@ -37,7 +37,7 @@ class CardRequest extends FormRequest
             default:
                 return [];
         }
- 
+
     }
 
     /**

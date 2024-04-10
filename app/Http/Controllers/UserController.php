@@ -28,12 +28,14 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $validated = $request->validated();
+
         return $this->userService->create($validated);
     }
 
     public function update(UserRequest $request, User $user)
-    {   
+    {
         $validated = $request->validated();
+
         return $this->userService->update($validated, $user);
     }
 

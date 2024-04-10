@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CardRequest;
 use App\Models\Card;
 use App\Services\CardService;
-use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
@@ -24,14 +23,16 @@ class CardController extends Controller
     }
 
     public function store(CardRequest $request)
-    {   
+    {
         $validated = $request->validated();
+
         return $this->cardService->create($validated);
     }
 
     public function update(CardRequest $request, Card $card)
-    {   
+    {
         $validated = $request->validated();
+
         return $this->cardService->update($validated, $card);
     }
 
