@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     schema="ExpenseRequest",
  *     required={"number", "amount", "description"},
+ *
  *     @OA\Property(
  *         property="number",
  *         type="integer",
@@ -28,7 +29,6 @@ use Illuminate\Foundation\Http\FormRequest;
  *     )
  * )
  */
-
 class ExpenseRequest extends FormRequest
 {
     /**
@@ -43,8 +43,7 @@ class ExpenseRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */   
-
+     */
     public function rules(): array
     {
         switch ($this->method()) {

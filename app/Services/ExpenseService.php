@@ -6,8 +6,8 @@ use App\Models\Card;
 use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use App\traits\AuthorizationTrait;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseService
 {
@@ -52,7 +52,7 @@ class ExpenseService
             ],
         ], 200);
     }
-    
+
     public function create($data): JsonResponse
     {
         $authorized = $this->authorizeUser($data);

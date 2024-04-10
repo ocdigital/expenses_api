@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     schema="CardRequest",
  *     required={"number", "balance", "user_id"},
+ *
  *     @OA\Property(
  *         property="number",
  *         type="string",
@@ -28,7 +29,6 @@ use Illuminate\Foundation\Http\FormRequest;
  *     )
  * )
  */
-
 class CardRequest extends FormRequest
 {
     /**

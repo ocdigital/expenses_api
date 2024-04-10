@@ -6,6 +6,7 @@ namespace App\Http\Requests;
  * @OA\Schema(
  *     schema="UserRequest",
  *     required={"name", "email", "password"},
+ *
  *     @OA\Property(
  *         property="name",
  *         type="string",
@@ -28,7 +29,6 @@ namespace App\Http\Requests;
  *     )
  * )
  */
-
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -26,13 +26,16 @@ class ExpenseController extends Controller
      *     path="/api/expenses",
      *     tags={"Expenses"},
      *     summary="Retorna uma lista de despesas",
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Sucesso",
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Erro interno do servidor"
@@ -46,7 +49,6 @@ class ExpenseController extends Controller
      *     }
      * )
      */
-
     public function index()
     {
         return $this->expenseService->all();
@@ -57,22 +59,27 @@ class ExpenseController extends Controller
      *     path="/api/expenses/{id}",
      *     tags={"Expenses"},
      *     summary="Retorna uma despesa específica",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID da despesa",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="string"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Sucesso",
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Erro interno do servidor"
@@ -86,7 +93,6 @@ class ExpenseController extends Controller
      *     }
      * )
      */
-
     public function show(Expense $expense)
     {
         return $this->expenseService->show($expense);
@@ -97,20 +103,26 @@ class ExpenseController extends Controller
      *     path="/api/expenses",
      *     tags={"Expenses"},
      *     summary="Cria uma nova despesa",
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(ref="#/components/schemas/ExpenseRequest")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Sucesso",
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Erro interno do servidor"
@@ -124,7 +136,6 @@ class ExpenseController extends Controller
      *     }
      * )
      */
-
     public function store(ExpenseRequest $request)
     {
         $validated = $request->validated();
@@ -137,29 +148,37 @@ class ExpenseController extends Controller
      *     path="/api/expenses/{id}",
      *     tags={"Expenses"},
      *     summary="Atualiza uma despesa",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID da despesa",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="string"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(ref="#/components/schemas/ExpenseRequest")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Sucesso",
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Erro interno do servidor"
@@ -173,7 +192,6 @@ class ExpenseController extends Controller
      *     }
      * )
      */
-
     public function update(ExpenseRequest $request, Expense $expense)
     {
         if (! Auth::user()->tokenCan('admin')) {
@@ -191,22 +209,27 @@ class ExpenseController extends Controller
      *     path="/api/expenses/{id}",
      *     tags={"Expenses"},
      *     summary="Deleta uma despesa",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID da despesa",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="string"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=204,
      *         description="Sucesso",
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Erro interno do servidor"
@@ -220,7 +243,6 @@ class ExpenseController extends Controller
      *     }
      * )
      */
-
     public function destroy(Expense $expense)
     {
         if (! Auth::user()->tokenCan('admin') && Auth::user()->id !== $expense->card->user_id) {

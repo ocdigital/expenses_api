@@ -6,6 +6,7 @@ namespace App\Http\Requests;
  * @OA\Schema(
  *     schema="LoginRequest",
  *     required={"email", "password"},
+ *
  *     @OA\Property(
  *         property="email",
  *         type="string",
@@ -46,4 +47,3 @@ class LoginRequest extends FormRequest
         ];
     }
 }
-

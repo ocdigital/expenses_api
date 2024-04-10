@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\traits\AuthorizationTrait;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
