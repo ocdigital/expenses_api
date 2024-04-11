@@ -49,12 +49,11 @@ Nossa API vai ter endpoints que possibilitam
     docker exec -it expenses_api-app-1 php artisan test
     ```
 
-4. **Usuário Admin**
-    ```bash
+4. **Usuário Admin**    
     Será criado um usuario admin para fazer o primeiro login para gerar o token da api
     admin@teste.com
     password123
-    ```
+  
 
 
 ## Documentação da API
