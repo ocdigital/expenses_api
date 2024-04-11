@@ -1,3 +1,5 @@
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
 # Desafio Back-end - Expenses API
 
 Este projeto é uma API REST desenvolvida para o desafio de desenvolvedor back-end.
@@ -29,7 +31,7 @@ Nossa API vai ter endpoints que possibilitam
 
 1. **Clone o Repositório:**
     ```bash
-    https://github.com/ocdigital/expenses_api.git
+    git clone https://github.com/ocdigital/expenses_api.git
     ```
 
 2. **Acesse o Diretório do Projeto:**
@@ -37,28 +39,12 @@ Nossa API vai ter endpoints que possibilitam
     cd expenses_api
     ```
 
-5. **Execute o Ambiente em Modo de Segundo Plano:**
+3. **Execute o Ambiente em Modo de Segundo Plano:**
     ```bash
     docker-compose up -d
     ```
 
-7. **Entre no Container Backend para Executar as Migrações:**
-    *(Caso não seja expenses_api-app, execute o docker ps para ver o nome)*
-    ```bash   
-    docker exec -it expenses_api-app-1 bash
-    ```
-
-8. **Execute as Migrações do Banco de Dados:**
-    ```bash
-    php artisan migrate
-    ```
-
-9. **Vamos popular a base com um usuário Administrador:**
-    ```bash
-    php artisan db:seed
-    ```
-
-10. **Para executar os Testes:**
+4. **Para executar os Testes:**
     ```bash
     php artisan test
     ```
