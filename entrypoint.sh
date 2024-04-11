@@ -10,16 +10,8 @@ composer install
 cp .env.example .env
 
 # Limpar cache e configurar a aplicação
-php artisan cache:clear
-php artisan config:clear
-php artisan config:cache
 php artisan key:generate
 
-# Aguardar o Redis estar pronto antes de iniciar o Horizon e a fila de trabalho
-while ! nc -z redis 6379; do
-  echo "Aguardando o Redis estar disponível..."
-  sleep 1
-done
 
 # Iniciar o Horizon para processamento de filas
 php artisan horizon &
@@ -27,6 +19,8 @@ php artisan horizon &
 
 # Iniciar o trabalhador da fila de forma assíncrona
 php artisan queue:work --daemon &
+
+php artisan config:clear
 
 # Iniciar o servidor Apache
 apache2-foreground
