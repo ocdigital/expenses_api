@@ -43,10 +43,9 @@ Nossa API vai ter endpoints que possibilitam
     ```
 
 7. **Entre no Container Backend para Executar as Migrações:**
-    *(Encontre o nome do container, pode ser expenses_api-app)*
-    ```bash
-    docker ps
-    docker exec -it nome-do-container bash
+    *(Caso não seja expenses_api-app, execute o docker ps para ver o nome)*
+    ```bash   
+    docker exec -it expenses_api-app-1 bash
     ```
 
 8. **Execute as Migrações do Banco de Dados:**
