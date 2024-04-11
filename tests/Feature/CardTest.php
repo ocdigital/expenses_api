@@ -23,20 +23,53 @@ it('cant create a new card', function () {
 
     $response->assertStatus(201);
 
-    $response->assertJson([
-        'data' => [
-            'card' => [
-                'number' => '1234567890123456',
-                'balance' => 1000,
-                'user_id' => $user->id,
-            ],
-        ],
-    ]);
+    expect($response->json('data.card.number'))->toBe('1234567890123456');
+    expect($response->json('data.card.balance'))->toBe(1000);
+    expect($response->json('data.card.user_id'))->toBe($user->id);
+
+});
+
+it('cant create a new card with invalid data', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+    $cardData = [
+        'number' => '1234567890123456',
+    ];
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer '.$token,
+    ])->postJson('/api/cards', $cardData);
+
+    $response->assertStatus(422);
+
+    expect($response->json('errors.balance'))->toBe(['Saldo é obrigatório']);
+    expect($response->json('errors.user_id'))->toBe(['Usuário é obrigatório']);
+
+});
+
+it('cant create a new card with negative balance', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+    $cardData = [
+        'number' => '1234567890123456',
+        'balance' => -1000,
+        'user_id' => $user->id,
+    ];
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer '.$token,
+    ])->postJson('/api/cards', $cardData);
+
+    expect($response->json('message'))->toBe('Saldo deve ser maior ou igual a 0');
 });
 
 it('can list all cards', function () {
     $user = User::factory()->create();
     $token = $user->createToken('test-token')->plainTextToken;
+
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
+    ]);
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer '.$token,
@@ -44,11 +77,7 @@ it('can list all cards', function () {
 
     $response->assertStatus(200);
 
-    $response->assertJsonStructure([
-        'data' => [
-            'cards',
-        ],
-    ]);
+    expect($response->json('data.cards'))->toHaveCount(1);
 });
 
 it('can show a card', function () {
@@ -66,11 +95,8 @@ it('can show a card', function () {
 
     $response->assertStatus(200);
 
-    $response->assertJsonStructure([
-        'data' => [
-            'card',
-        ],
-    ]);
+    expect($response->json('data.card.number'))->toBe($card->number);
+
 });
 
 it('can update a card', function () {
@@ -91,15 +117,29 @@ it('can update a card', function () {
 
     $response->assertStatus(200);
 
-    $response->assertJson([
-        'data' => [
-            'card' => [
-                'number' => $card->number,
-                'balance' => 1000,
-                'user_id' => $user->id,
-            ],
-        ],
+    expect($response->json('data.card.balance'))->toBe(1000);
+});
+
+it('cant update a card with invalid data', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $card = Card::factory()->create([
+        'user_id' => $user->id,
     ]);
+
+    $cardData = [
+        'balance' => 'invalid',
+    ];
+
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer '.$token,
+    ])->putJson('/api/cards/'.$card->id, $cardData);
+
+    $response->assertStatus(422);
+
+    expect($response->json('errors.balance'))->toBe(['Saldo deve ser um número']);
+
 });
 
 it('can delete a card', function () {
@@ -115,4 +155,6 @@ it('can delete a card', function () {
     ])->deleteJson('/api/cards/'.$card->id);
 
     $response->assertStatus(204);
+
+    expect(Card::find($card->id))->toBeNull();
 });
