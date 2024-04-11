@@ -62,6 +62,8 @@ Nossa API vai ter endpoints que possibilitam
 
 Explore a documentação da API em http://localhost:8000/api/documentation.
 
+Caso queria utilizar Postman, há um arquivo de configuração na raiz do projeto: expenses_api.postman_collection.json
+
 ## Algumas informações
 
 Aplicação: http://localhost:8000.
