@@ -51,7 +51,9 @@ Nossa API vai ter endpoints que possibilitam
 
 4. **Usuário Admin**    
     Será criado um usuario admin para fazer o primeiro login para gerar o token da api
+
     admin@teste.com
+
     password123
   
 
@@ -73,7 +75,11 @@ para gerar o token.
 
 Passos para gerar a despesa:
 -Faça o login com admin e adicione o token a ferramenta (postman ou no Swagger).
+
 -Crie um usuário.
+
 -Crie um novo cartão atribuindo o id do usuário. 
+
 -Crie uma nova despesa utilizando o numero do cartão.
+
 -Pode visualizar os emails no MailCatcher e os logs no Horizon 😀
