@@ -66,15 +66,15 @@ Nossa API vai ter endpoints que possibilitam
 
 ## Documentação da API
 
-Explore a documentação da API  [aqui](http://localhost:8000/api/documentation).
+Explore a documentação da API em http://localhost:8000/api/documentation.
 
 ## Algumas informações
 
-A apliação Backend irá inicianizar em http://localhost:8000/
+A apliação Backend irá inicianizar em http://localhost:8000/.
 
-Foi instalado o Horizon para visualizar os Jobs http://localhost:8000/horizon
+Foi instalado o Horizon para visualizar os Jobs http://localhost:8000/horizon.
 
-Existe um serviço de email fake MailCatcher no endereço http://localhost:1080/, os emails serão enviados para lá
+Existe um serviço de email fake MailCatcher no endereço http://localhost:1080/, os emails serão enviados para lá.
 
 O backend está utilizando token para atenticação, então é necessário fazer login na api
 para gerar o token.
